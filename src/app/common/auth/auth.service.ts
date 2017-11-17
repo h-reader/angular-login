@@ -1,7 +1,7 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { isPlatformBrowser } from '@angular/common';
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/Rx';
 
 import { environment } from '../../../environments/environment';
@@ -11,7 +11,7 @@ import { User } from '../../user/user';
 export class AuthService {
 
   /** ログイン状態通知 */
-  isLogin$: BehaviorSubject<boolean>; 
+  isLogin$: BehaviorSubject<boolean>;
 
   private ACESS_TOKEN_KEY = 'access-token';
   private UID_KEY= 'uid';

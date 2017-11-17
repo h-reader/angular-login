@@ -17,19 +17,23 @@ export class MessageService {
    */
   getMessage(messageKey: string, extStr?: string[]): string {
 
-    if(!extStr) extStr = []
-    for(let i=0; i<this.MAX_EXT_STR_COUNT; i++) {
-      if(!extStr[i]) extStr.push('');
+    if (!extStr) {
+      extStr = [];
+    }
+    for (let i = 0; i < this.MAX_EXT_STR_COUNT; i++) {
+      if (!extStr[i]) {
+        extStr.push('');
+      }
     }
 
-    var messageList = {
+    const messageList = {
       requied: `値を入力して下さい`,
       email: `正しいメールアドレスを入力してください`,
       minlength: `${extStr[0]} 文字以上入力してください`,
       maxlength: `${extStr[0]} 文字以内で入力してください`,
       loginError: `メースアドレス、またはパスワードが違います。`,
       passwordDisagreementError: `パスワードが一致しません。`,
-    }
+    };
 
     return messageList[messageKey];
   }
@@ -39,10 +43,10 @@ export class MessageService {
  * メッセージキー
  */
 export class MessageKey {
-  static requied: string = 'requied';
-  static email: string = 'email';
-  static minlength: string = 'minlength';
-  static maxlength: string = 'maxlength';
-  static loginError: string = 'loginError';
-  static passwordDisagreementError: string = 'passwordDisagreementError';
+  static requied = 'requied';
+  static email = 'email';
+  static minlength = 'minlength';
+  static maxlength = 'maxlength';
+  static loginError = 'loginError';
+  static passwordDisagreementError = 'passwordDisagreementError';
 }

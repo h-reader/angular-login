@@ -49,7 +49,7 @@ export class SignUpComponent implements OnInit {
 
     this.signupErrorMessage = null;
 
-    if(!this.validate()) {
+    if (!this.validate()) {
       return;
     }
 

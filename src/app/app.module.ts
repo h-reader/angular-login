@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MATERIAL_COMPATIBILITY_MODE, MatInputModule, MatButtonModule,
+import { MatInputModule, MatButtonModule,
   MatIconModule, MatToolbarModule, MatCardModule } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -40,7 +40,6 @@ import { SignUpComponent } from './user/sign-up/sign-up.component';
   providers: [
     AuthService,
     MessageService,
-    { provide: MATERIAL_COMPATIBILITY_MODE, useValue: true },
   ],
   bootstrap: [AppComponent]
 })

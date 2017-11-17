@@ -2,7 +2,8 @@
   <a class="header-title" routerLink=".">{{ headerTitle }}</a>
   <span class="remaining-space"></span>
   <ng-container *ngIf="isLogin() == false">
-    <a mat-button routerLink=".">Login</a>
+    <a mat-button routerLink=".">ログイン</a>
+    <a mat-button routerLink="/sign_up">新規登録</a>
   </ng-container>
 
   <ng-container *ngIf="isLogin() == true">

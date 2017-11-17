@@ -38,11 +38,12 @@
             {{ errorMessages.required }}
         </mat-error>
       </mat-form-field>
-      <br>
-      <button mat-raised-button color="primary" [disabled]="formSignUp.invalid" (click)="entry();" >登録</button>
-      <mat-error *ngIf="signupErrorMessage">
-        {{signupErrorMessage}}
-      </mat-error>
     </form>
   </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" [disabled]="formSignUp.invalid" (click)="entry();" >登録</button>
+    <mat-error *ngIf="signupErrorMessage">
+      {{signupErrorMessage}}
+    </mat-error>
+  </mat-card-actions>
 </mat-card>

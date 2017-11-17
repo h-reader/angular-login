@@ -9,13 +9,14 @@
       <mat-form-field>
         <input type="password" matInput placeholder="パスワード" required name="password" ngModel>
       </mat-form-field>
-      <br>
-      <button [disabled]="!loginForm.form.valid" mat-raised-button color="primary"
-        (click)="login(loginForm.value);" >ログイン</button>
-      <mat-error *ngIf="loginErrorMessage">
-        {{loginErrorMessage}}
-      </mat-error>
-      <button mat-button (click)="moveSignUp()" >新規登録</button>
     </form>
   </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary"
+      [disabled]="!loginForm.form.valid" (click)="login(loginForm.value);" >ログイン</button>
+    <mat-error *ngIf="loginErrorMessage">
+      {{loginErrorMessage}}
+    </mat-error>
+    <button mat-button (click)="moveSignUp()" >新規登録</button>
+  </mat-card-actions>
 </mat-card>

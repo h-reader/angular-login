@@ -13,14 +13,13 @@ export class HeaderComponent implements OnInit {
 
   /** ヘッダタイトル名 */
   headerTitle: string = environment.APP_TITLE;
+  /** ログイン状態 */
+  isLogin: boolean;
 
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
-  }
-
-  isLogin(): boolean {
-    return this.authService.isLogin();
+    this.authService.isLogin$.subscribe((isLogin: boolean) => { this.isLogin = isLogin;});
   }
 
   /**

@@ -1,6 +1,7 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { isPlatformBrowser } from '@angular/common';
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import 'rxjs/Rx';
 
 import { environment } from '../../../environments/environment';
@@ -9,11 +10,16 @@ import { User } from '../../user/user';
 @Injectable()
 export class AuthService {
 
+  /** ログイン状態通知 */
+  isLogin$: BehaviorSubject<boolean>; 
+
   private ACESS_TOKEN_KEY = 'access-token';
   private UID_KEY= 'uid';
   private CLIENT_KEY= 'client';
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object, private http: Http) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, private http: Http) {
+    this.isLogin$ = new BehaviorSubject<boolean>(this.isLogin());
+  }
 
   /**
    * ローカルストレージに保存してあるtoken情報を取得する
@@ -101,6 +107,8 @@ export class AuthService {
 
       this.printAuthInfo();
 
+      this.isLogin$.next(true);
+
       // ユーザ情報を返却
       return response.json().data as User;
     })
@@ -113,6 +121,7 @@ export class AuthService {
   logout() {
     this.clearAuthInfo();
     this.printAuthInfo();
+    this.isLogin$.next(false);
   }
 
   /**

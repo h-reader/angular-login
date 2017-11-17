@@ -23,7 +23,8 @@
       </mat-form-field>
       <br>
       <mat-form-field>
-        <input type="password" matInput placeholder="パスワード(確認)" [(ngModel)]="user.passwordConfirm" name="passwordConfirm"  #passwordConfirm="ngModel" required minlength="8">
+        <input type="password" matInput placeholder="パスワード(確認)" [(ngModel)]="user.passwordConfirm" name="passwordConfirm"
+          #passwordConfirm="ngModel" required minlength="8">
         <mat-error *ngIf="passwordConfirm.invalid && passwordConfirm.errors.required">
             {{ errorMessages.required }}
         </mat-error>

@@ -7,14 +7,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
 import 'hammerjs';
 
+import { AuthService } from './common/auth/auth.service';
+import { MessageService } from './common/message/message.service';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
-
-import { AuthService } from './common/auth/auth.service';
-import { MessageService } from './common/message/message.service';
 import { SignUpComponent } from './user/sign-up/sign-up.component';
 
 @NgModule({

@@ -92,6 +92,22 @@ export class AuthService {
   }
 
   /**
+   * ログイン中のユーザを取得する。
+   * ログインしていない場合はNullを返却
+   */
+  async getCurrentUser(): Promise<User> {
+    if(this.isLogin()) {
+      // ユーザ取得
+      try {
+        return await this.validateUser();
+      } catch(e) {
+        this.clearAuthInfo();
+      }
+    }
+    return null;
+  }
+
+  /**
    * ログインする
    * @param body ログイン情報（メールアドレス、パスワード）
    */
@@ -146,6 +162,26 @@ export class AuthService {
     .catch(this.handleError);
   }
 
+  /**
+   * トークン情報からユーザ情報を取得する
+   */
+  private validateUser(): Promise<User> {
+    const headers = new Headers({
+      'Content-Type': 'application/json',
+      'access-token': this.getToken(),
+      'uid': this.getUid(),
+      'client': this.getClient(),
+    });
+    const options = new RequestOptions({headers: headers});
+    return this.http.get(environment.API_URL + '/auth/validate_token', options)
+    .toPromise().then(response => {
+      return response.json().data as User;
+    }).catch(this.handleError);
+  }
+
+  /**
+   * 認証情報を削除
+   */
   private clearAuthInfo() {
     localStorage.removeItem(this.ACESS_TOKEN_KEY);
     localStorage.removeItem(this.UID_KEY);

@@ -55,36 +55,6 @@ export class AuthService {
   }
 
   /**
-   * アクセストークンをローカルストレージに保存
-   * @param token アクセストークン
-   */
-  setToken(token: string) {
-    if (isPlatformBrowser(this.platformId) && token) {
-      localStorage.setItem(this.ACESS_TOKEN_KEY, token);
-    }
-  }
-
-  /**
-   * uid = email 情報をローカルストレージに保存
-   * @param uid UID
-   */
-  setUid(uid: string) {
-    if (isPlatformBrowser(this.platformId) && uid) {
-      localStorage.setItem(this.UID_KEY, uid);
-    }
-  }
-
-  /**
-   * client = 使用端末情報をローカルストレージに保存
-   * @param client 使用端末情報
-   */
-  setClient(client: string) {
-    if (isPlatformBrowser(this.platformId) && client) {
-      localStorage.setItem(this.CLIENT_KEY, client);
-    }
-  }
-
-  /**
    * ログインしているかどうか
    */
   isLogin(): boolean {
@@ -117,11 +87,7 @@ export class AuthService {
     return this.http.post(environment.API_URL + '/auth/sign_in', body, options)
     .toPromise().then(response => {
       // 認証情報を保存
-      this.setToken(response.headers.get('access-token'));
-      this.setUid(response.headers.get('uid'));
-      this.setClient(response.headers.get('client'));
-
-      this.printAuthInfo();
+      this.saveAuthInfo(response.headers);
 
       this.isLogin$.next(true);
 
@@ -136,7 +102,6 @@ export class AuthService {
    */
   logout() {
     this.clearAuthInfo();
-    this.printAuthInfo();
     this.isLogin$.next(false);
   }
 
@@ -150,16 +115,42 @@ export class AuthService {
     return this.http.post(environment.API_URL + '/auth', body, options)
     .toPromise().then(response => {
       // 認証情報を保存
-      this.setToken(response.headers.get('access-token'));
-      this.setUid(response.headers.get('uid'));
-      this.setClient(response.headers.get('client'));
-
-      this.printAuthInfo();
+      this.saveAuthInfo(response.headers);
 
       // ユーザ情報を返却
       return response.json().data as User;
     })
     .catch(this.handleError);
+  }
+
+  /**
+   * アクセストークンをローカルストレージに保存
+   * @param token アクセストークン
+   */
+  private setToken(token: string) {
+    if (isPlatformBrowser(this.platformId) && token) {
+      localStorage.setItem(this.ACESS_TOKEN_KEY, token);
+    }
+  }
+
+  /**
+   * uid = email 情報をローカルストレージに保存
+   * @param uid UID
+   */
+  private setUid(uid: string) {
+    if (isPlatformBrowser(this.platformId) && uid) {
+      localStorage.setItem(this.UID_KEY, uid);
+    }
+  }
+
+  /**
+   * client = 使用端末情報をローカルストレージに保存
+   * @param client 使用端末情報
+   */
+  private setClient(client: string) {
+    if (isPlatformBrowser(this.platformId) && client) {
+      localStorage.setItem(this.CLIENT_KEY, client);
+    }
   }
 
   /**
@@ -175,8 +166,20 @@ export class AuthService {
     const options = new RequestOptions({headers: headers});
     return this.http.get(environment.API_URL + '/auth/validate_token', options)
     .toPromise().then(response => {
+      // 認証情報を保存
+      this.saveAuthInfo(response.headers);
       return response.json().data as User;
     }).catch(this.handleError);
+  }
+
+  /**
+   * 認証情報を保存
+   * @param headers レスポンスヘッダ
+   */
+  private saveAuthInfo(headers: Headers) {
+    this.setToken(headers.get('access-token'));
+    this.setUid(headers.get('uid'));
+    this.setClient(headers.get('client'));
   }
 
   /**
@@ -193,6 +196,9 @@ export class AuthService {
     return Promise.reject(error.message || error);
   }
 
+  /**
+   * 認証情報を印字する
+   */
   private printAuthInfo() {
     console.log('token : ' + this.getToken());
     console.log('uid : ' + this.getUid());
